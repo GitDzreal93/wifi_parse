@@ -1,0 +1,141 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title> 学霸充电宝 云推广平台 </title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/semantic.min.css' %}">
+    <script type="text/javascript" src="{% static 'js/md5.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/wechatutil.js' %}"></script>
+    <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'js/semantic.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://wifi.weixin.qq.com/operator/callWechat.xhtml?appId=wxe5e834e64fcbd36e&amp;extend=73866823101.04999&amp;timestamp=1520436274560&amp;sign=9533c3dfb0c8fe5b0baac3e3539e4cd8&amp;shopId=830030&amp;authUrl=http%3A%2F%2Fwww.qq.com%2F&amp;mac=D850E631C7D2&amp;ssid=Dzreal93&amp;bssid=undefined"></script>
+    <script src="https://wifi.weixin.qq.com/operator/callWechat.xhtml?appId=wxe5e834e64fcbd36e&amp;extend=63855084739.88446&amp;timestamp=1520436744869&amp;sign=ba5e4e86e5f1ecf76b35924c5283f5dc&amp;shopId=830030&amp;authUrl=http%3A%2F%2Fwww.qq.com%2F&amp;mac=5CA86ACF0175&amp;ssid=vv_house_HP&amp;bssid=undefined"></script>
+    <script src="https://wifi.weixin.qq.com/operator/callWechat.xhtml?appId=wxe5e834e64fcbd36e&amp;extend=9077579561.783745&amp;timestamp=1520437342237&amp;sign=bd564fe167bac37acb50e906afd082be&amp;shopId=830030&amp;authUrl=http%3A%2F%2Fwww.qq.com%2F&amp;mac=D850E631C7D2&amp;ssid=Dzreal93&amp;bssid=undefined"></script>
+    <script src="https://wifi.weixin.qq.com/operator/callWechat.xhtml?appId=wxe5e834e64fcbd36e&amp;extend=35782836766.86711&amp;timestamp=1520437440728&amp;sign=6602b9ef357ca222517d71e7447f6240&amp;shopId=830030&amp;authUrl=http%3A%2F%2Fwww.qq.com%2F&amp;mac=D850E631C7D2&amp;ssid=Dzreal93&amp;bssid=undefined"></script>
+</head>
+<body>
+<div class="ui centered grid">
+    <div class="ui row"></div>
+    <div class="ui horizontal divider" style="margin-top: 30px ;  font-size:24px"> 学霸充电宝 云推广平台 v1.0.0</div>
+    <div class="ui row"></div>
+    <div class="text" align="left">
+        <div class="inline fields">
+            <div class="field" style="margin-top: 20px ;  font-size:22px">
+                <label>使用文档 ：</label>
+            </div>
+            <div class="field" style="margin-top: 20px ;  font-size:16px">
+                <label>测试数据 ：</label>
+            </div>
+            <div class="field" style="margin-top: 20px ">
+                <label>appId = </label>
+            </div>
+            <div class="field" style="margin-top: 20px ">
+                <label>secretKey = </label>
+            </div>
+            <div class="field" style="margin-top: 20px ">
+                <label>shopId = </label>
+            </div>
+            <div class="field" style="margin-top: 20px ">
+                <label>MAC =  (MAC这个表单需要用大写没有冒号分割)</label>
+            </div>
+            <div class="field" style="margin-top: 20px ">
+                <label>SSID = Dzreal93</label>
+            </div>
+            <div class="field" style="margin-top: 20px ">
+                <label>微信公众号后台网址：</label>
+                <a href="">
+                    </a>
+            </div>
+            <div class="field" style="margin-top: 20px ">
+                <label>微信公众号wifi开发文档：</label>
+                <a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444894086">
+                    https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444894086</a>
+            </div>
+            <div class="field" style="margin-top: 20px ">
+                <label>微信公众号wifi开发文档：</label>
+                <a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444894086">
+                    https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444894086</a>
+            </div>
+            <div class="field" style="margin-top: 20px ">
+                <label></label>
+                <a href="http://120.27.48.117/wx_test/">
+                    </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui row"></div>
+    <div class="ui horizontal divider" style="  font-size:24px">接口测试</div>
+    <div class="ui row"></div>
+
+    <div class="ui seven wide column">
+        <div class="ui labeled fluid input">
+            <div class="ui label" style="width: 180px; text-align: right;"> appId</div>
+            <input type="text" id="appId" placeholder="appId">
+        </div>
+        <br>
+        <div class="ui labeled fluid input">
+            <div class="ui label" style="width: 180px; text-align: right;"> secretKey</div>
+            <input type="text" id="secretKey" placeholder="secretKey">
+        </div>
+        <br>
+        <div class="ui labeled fluid input">
+            <div class="ui label" style="width: 180px; text-align: right;"> shopId</div>
+            <input type="text" id="shopId" placeholder="shopId">
+        </div>
+        <br>
+        <div class="ui labeled fluid input">
+            <div class="ui label" style="width: 180px; text-align: right;"> MAC</div>
+            <input type="text" id="mac" placeholder="待测试手机MAC地址，形如:ABCD12345678或AB:CD:12:34:56:78">
+        </div>
+        <br>
+        <div class="ui labeled fluid input">
+            <div class="ui label" style="width: 180px; text-align: right;"> SSID</div>
+            <input type="text" id="ssid" placeholder="请勿使用带中文的SSID">
+        </div>
+        <br>
+        <button class="ui primary button center aligned" style="margin-left: 40%" onclick="onSave()"> 提交</button>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    var onSave = function () {
+        var appId = $("#appId")[0].value;
+        var secretKey = $("#secretKey")[0].value;
+        var shopId = $("#shopId")[0].value;
+        var mac = $("#mac")[0].value;
+        var ssid = $("#ssid")[0].value;
+        var extend = Math.random() * 100000000000;
+        var timestamp = new Date().getTime();
+        var authUrl = "http://www.qq.com/";
+        var sign = md5(appId + extend + timestamp + shopId + authUrl + mac + ssid + secretKey);
+        if (appId.length == 0 || secretKey.length == 0 || shopId.length == 0 || mac.length == 0) {
+            return;
+        }
+
+        $(function () {
+            $("button").click(function () {
+                Wechat_GotoRedirect(appId, extend, timestamp, sign, shopId, authUrl, mac, ssid);
+                alert('已经发送微信了')
+            });
+        });
+    }
+
+</script>
+
+
+<iframe src="weixin://connectToFreeWifi/?apKey=http%3A%2F%2Fmp.weixin.qq.com%2Fmp%2Fwifi%3Fq%3Db8369f9b30719d5e2cb5d497&amp;ticket=c8f17c5ab32050d89cc8e0c5ca6eb127&amp;client_ip=114.252.37.19"
+        style="display: none; width: 0px; height: 0px;"></iframe>
+<iframe src="weixin://connectToFreeWifi/?apKey=http%3A%2F%2Fmp.weixin.qq.com%2Fmp%2Fwifi%3Fq%3D38a8042b3666e50d64ac927b&amp;ticket=787acba6c86b5253bbbf80d29b39eb5d&amp;client_ip=114.252.37.19"
+        style="display: none; width: 0px; height: 0px;"></iframe>
+<iframe src="weixin://connectToFreeWifi/?apKey=http%3A%2F%2Fmp.weixin.qq.com%2Fmp%2Fwifi%3Fq%3Db8369f9b30719d5e2cb5d497&amp;ticket=6d88d85ccd32591ebda6b36e0771c2d6&amp;client_ip=114.252.37.19"
+        style="display: none; width: 0px; height: 0px;"></iframe>
+<iframe src="weixin://connectToFreeWifi/?apKey=http%3A%2F%2Fmp.weixin.qq.com%2Fmp%2Fwifi%3Fq%3Db8369f9b30719d5e2cb5d497&amp;ticket=f28c5eb539185cba887a77ebc6b5d621&amp;client_ip=114.252.37.19"
+        style="display: none; width: 0px; height: 0px;"></iframe>
+</body>
+</html>

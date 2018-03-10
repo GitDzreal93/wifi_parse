@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+    <title> 云发送平台 </title>
+    <link rel="stylesheet" type="text/css" href="semantic.min.css">
+    <script type="text/javascript" src="md5.min.js"></script>
+    <script type="text/javascript" src="wechatutil.js?_=V1"></script>
+    <script src="jquery-1.11.3.min.js"></script>
+    <script src="semantic.min.js"></script>
+    <script src="xlsx.full.min.js"></script>
+</head>
+<body>
+<div class="ui centered grid">
+    <div class="ui row"></div>
+    <div class="ui horizontal divider" style="margin-top: 30px ;  font-size:24px"> 公告栏</div>
+    <div class="ui row"></div>
+    <div class="text" align="left">
+        <div class="inline fields">
+
+            <!--<div class="field" style="margin-top: 20px ;  font-size:22px">-->
+                <!--<label>固件：</label>-->
+            <!--</div>-->
+            <!--<div class="field"style="margin-top: 20px ">-->
+                <!--<label>5.0.6版本固件，修复采集时意外停止问题，下载地址为：</label>-->
+                <!--<a href=" http://www.city-wifi.com/apce/wx_5.0.6/update.bin"> http://125.76.226.197/apce/wx_5.0.6/update.bin</a>-->
+            <!--</div>-->
+            <!--<div class="field" style="margin-top: 20px ;  font-size:22px">-->
+                <!--<label>APP：</label>-->
+            <!--</div>-->
+            <!--<div class="field"style="margin-top: 20px ">-->
+                <!--<label>最新1.3.1版本APP，增加版本号显示，下载地址如下：</label>-->
+                <!--<a href="http://www.city-wifi.com/apce/wx_test/wifi.apk"> http://125.76.226.197/apce/wx_test/wifi.apk</a>-->
+            <!--</div>-->
+
+            <div class="field" style="margin-top: 20px ;  font-size:22px">
+                <label>使用文档 ：</label>
+            </div>
+            <div class="field" style="margin-top: 20px ">
+                <label>1、不能正常登录192.168.19.1的解决步骤（V1.3）下载地址：</label>
+                <a href="http://120.27.48.117/wx_test/notlogin.pdf">http://120.27.48.117/wx_test/notlogin.pdf</a>
+            </div>
+            <div class="field"style="margin-top: 20px ">
+                <label>2、热点不能正常使用及不能正常采集数据的解决步骤(V1.4)下载地址：</label>
+                <a href="http://120.27.48.117/wx_test/notwork.pdf"> http://120.27.48.117/wx_test/notwork.pdf</a>
+            </div>
+            <div class="field"style="margin-top: 20px ">
+                <label>3、使用常见问题说明（V1.1）下载地址：</label>
+                <a href="http://120.27.48.117/wx_test/commonproblem.pdf"> http://120.27.48.117/wx_test/commonproblem.pdf</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="ui row"></div>
+    <div class="ui horizontal divider" style="  font-size:24px">接口测试</div>
+    <div class="ui row"></div>
+
+    <div class="ui seven wide column">
+        <div class="ui labeled fluid input">
+            <div class="ui label" style="width: 180px; text-align: right;"> appId</div>
+            <input type="text" id="appId" placeholder="appId">
+        </div>
+        <br/>
+        <div class="ui labeled fluid input">
+            <div class="ui label" style="width: 180px; text-align: right;"> secretKey</div>
+            <input type="text" id="secretKey" placeholder="secretKey">
+        </div>
+        <br/>
+        <div class="ui labeled fluid input">
+            <div class="ui label" style="width: 180px; text-align: right;"> shopId</div>
+            <input type="text" id="shopId" placeholder="shopId">
+        </div>
+        <br/>
+        <div class="ui labeled fluid input">
+            <div class="ui label" style="width: 180px; text-align: right;"> MAC</div>
+            <input type="text" id="mac" placeholder="待测试手机MAC地址，形如:ABCD12345678或AB:CD:12:34:56:78">
+        </div>
+        <br/>
+        <div class="ui labeled fluid input">
+            <div class="ui label" style="width: 180px; text-align: right;"> SSID</div>
+            <input type="text" id="ssid" placeholder="请勿使用带中文的SSID">
+        </div>
+        <br/>
+        <div class="ui labeled fluid input">
+            <div class="ui label" style="width: 180px; text-align: right;"> 设备MAC</div>
+            <input type="text" id="bmac1" placeholder="请输入设备MAC">
+        </div>
+        <br/>
+        <div class="ui labeled fluid input">
+            <div class="ui label" style="width: 180px; text-align: right;"> 设备序列码</div>
+            <input type="text" id="serial1" placeholder="请输入设备序列码">
+        </div>
+        <br/>
+        <button class="ui primary button center aligned" style="margin-left: 40%" onclick="onSave()"> 提交</button>
+    </div>
+
+    <div class="ui row"></div>
+    <div class="ui horizontal divider" style="font-size:24px"> 批量推送</div>
+    <div class="ui row"></div>
+    <div class="ui seven wide column">
+        <div class="ui buttons">
+            <a class="ui teal button" href="./template.xlsx">下载批量发送模板</a>
+        </div>
+        <div class="ui large form" style="margin-top: 30px">
+            <div class="field">
+                <label>上传文件</label>
+                <input type="file" name="file">
+            </div>
+            <div class="inline fields">
+                <div class="field">
+                    <label>发送间隔</label>
+                    <input type="text" id="interval" placeholder="请设置大于1的秒数">
+                </div>
+                <div class="field">
+                    <label>发送间隔扰动</label>
+                    <input type="text" id="proportion" placeholder="请输入百分比(15-99)">
+                </div>
+            </div>
+            <div class="inline fields">
+                <div class="field">
+                    <label>设备MAC</label>
+                    <input type="text" id="bmac2" placeholder="请设置设备MAC">
+                </div>
+                <div class="field">
+                    <label>设备序列码</label>
+                    <input type="text" id="serial2" placeholder="请输入设备序列码">
+                </div>
+            </div>
+            <div class="inline fields">
+                <div class="field">
+                    <div class="ui teal button" onclick="batchWrapper()">批量发送</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui horizontal divider" style="font-size:24px"> 采集数据下载</div>
+    <div class="ui seven wide column">
+        <div class="ui large form" style="margin-top: 30px">
+            <div class="inline fields" ,id="inputmac">
+                <div class="field">
+                    <label>设备MAC</label>
+                    <input type="text" id="intermac" placeholder="盒子MAC">
+                    <label>设备序列码</label>
+                    <input type="text" id="key" placeholder="设备序列码">
+                </div>
+                <div class="field">
+                    <a class="ui teal button" href="javascript:doDownload();">下载历史采集文件</a>
+                </div>
+            </div>
+            <!--<div class="field">-->
+                <!--<label>说明：请打开APP查看机器当天序列码，每台机器每天的序列码均不同，以彻底保证每台机器所采集数据安全性，防止数据泄漏</label>-->
+            <!--</div>-->
+        </div>
+    </div>
+
+</div>
+
+<div class="ui centered grid">
+    <div class="footer" trace-key="footer">
+        <p>
+            <b>copyright (c) 2018</b>
+        </p>
+    </div>
+    <div class="ui row"></div>
+</div>
+
+<!--<div class="ui seven wide column">-->
+<!--<div class="ui labeled fluid input">-->
+<!--<div class="ui label" style="width: 180px; text-align: right;"> appId</div>-->
+<!--<input type="text" id="appId" placeholder="appId">-->
+<!--</div>-->
+<!--<br/>-->
+<!--<div class="ui labeled fluid input">-->
+<!--<div class="ui label" style="width: 180px; text-align: right;"> secretKey</div>-->
+<!--<input type="text" id="secretKey" placeholder="secretKey">-->
+<!--</div>-->
+<!--<br/>-->
+<!--<div class="ui labeled fluid input">-->
+<!--<div class="ui label" style="width: 180px; text-align: right;"> shopId</div>-->
+<!--<input type="text" id="shopId" placeholder="shopId">-->
+<!--</div>-->
+<!--<br/>-->
+<!--<div class="ui labeled fluid input">-->
+<!--<div class="ui label" style="width: 180px; text-align: right;"> MAC</div>-->
+<!--<input type="text" id="mac" placeholder="待测试手机MAC地址，形如:ABCD12345678或AB:CD:12:34:56:78">-->
+<!--</div>-->
+<!--<br/>-->
+<!--<div class="ui labeled fluid input">-->
+<!--<div class="ui label" style="width: 180px; text-align: right;"> SSID</div>-->
+<!--<input type="text" id="ssid" placeholder="请勿使用带中文的SSID">-->
+<!--</div>-->
+<!--<br/>-->
+<!--<button class="ui primary button center aligned" style="margin-left: 40%" onclick="onSave()">-->
+<!--提交-->
+<!--</button>-->
+<!--<div class="ui row"></div>-->
+<!--<div class="ui horizontal divider" style="margin-top: 30px;font-size:24px"> 批量推送</div>-->
+<!--<div class="ui row"></div>-->
+<!--<div class="ui buttons">-->
+<!--<a class="ui teal button" href="./template.xlsx">下载批量发送模板</a>-->
+<!--</div>-->
+
+
+<!--<div class="ui large form" style="margin-top: 30px">-->
+<!--<div class="field">-->
+<!--<label>上传文件</label>-->
+<!--<input type="file" name="file">-->
+<!--</div>-->
+
+<!--<div class="inline fields">s-->
+<!--<div class="field">-->
+<!--<label>发送间隔</label>-->
+<!--<input type="text" id="interval" placeholder="请设置大于1的秒数">-->
+<!--</div>-->
+<!--<div class="field">-->
+<!--<label>发送间隔扰动</label>-->
+<!--<input type="text" id="proportion" placeholder="请输入百分比(0-99)">-->
+<!--</div>-->
+<!--<div class="field">-->
+<!--<div class="ui teal button" onclick="doBatch()">批量发送</div>-->
+<!--&lt;!&ndash; </div> &ndash;&gt;-->
+<!--</div>-->
+
+<!--</div>-->
+
+<!--<div class="ui row"></div>-->
+<!--<div class="ui horizontal divider" style="margin-top: 30px ;  font-size:24px"> 采集数据下载</div>-->
+<!--<div class="ui row"></div>-->
+<!--<div class="inline fields" ,id="inputmac">-->
+<!--<div class="field">-->
+<!--<label>盒子序列码</label>-->
+<!--<input type="text" id="intermac" placeholder="盒子序列码">-->
+<!--&lt;!&ndash;-->
+<!--<label>设备序列码</label>-->
+<!--<input type="text" id="key" placeholder="设备序列码">-->
+<!--&ndash;&gt;-->
+<!--</div>-->
+<!--<div class="field">-->
+<!--<a class="ui teal button" href="javascript:doDownload();">下载历史采集文件</a>-->
+<!--&lt;!&ndash;<div class="ui teal button" onclick="doDownload()" ;>点击下载</div>&ndash;&gt;-->
+<!--</div>-->
+<!--</div> &lt;!&ndash;form&ndash;&gt;-->
+
+<!--</div>-->
+
+<!--</div>-->
+
+<div class="ui modal">
+    <div class="header">
+        微信批量推送
+    </div>
+    <div class="content">
+        <div class="ui indicating progress" id="progress">
+            <div class="bar"></div>
+            <div class="label" id="progress_percent">0%</div>
+        </div>
+        <div class="ui grid">
+            <div class="row">
+                <div class="four wide column">
+                    <div class="label" id="wxsucc">共成功推送: 0</div>
+                    <div class="label" id="wxtotal">共发送: 0</div>
+                </div>
+                <div class="twelve wide column">
+                    <div class="ui form">
+                        <div class="field">
+                            <label>详情</label>
+                            <textarea rows="10" readonly="readonly" id="detail"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui teal ok button" id="model-ok">
+            关闭
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var interval = 1000;
+    var wxsucc = 0;
+    var wxmode = 0;
+    (function () {
+        $.ajax({
+            url: "./param?_=" + (new Date()).getTime(),
+            async: true,
+            success: function (res) {
+                interval = parseInt(res);
+                if (interval < 100 || isNaN(interval)) {
+                    interval = 1000;
+                }
+            }
+        });
+    })();
+
+    var onSave = function () {
+        var appId = $("#appId")[0].value;
+        var secretKey = $("#secretKey")[0].value;
+        var shopId = $("#shopId")[0].value;
+        var mac = $("#mac")[0].value;
+        var ssid = $("#ssid")[0].value;
+        var serial = $("#serial1")[0].value.toLowerCase();
+        var bmac = $("#bmac1")[0].value.toUpperCase().trim().replace(/:/g, "").replace(/：/g, "");
+        if (appId.length == 0 || secretKey.length == 0 || shopId.length == 0 || mac.length == 0 || serial.length == 0 || bmac.length == 0) {//|| ssid.length == 0) {
+            return;
+        }
+
+        $.ajax({
+            url: "./valid.php?mac=" + bmac + "&key=" + serial,
+            async: true,
+            success: function (res) {
+                if (res == "0") {
+                    var extend = Math.random() * 100000000000;
+                    var timestamp = new Date().getTime();
+                    var authUrl = "http://www.qq.com/";
+                    var sign = md5(appId + extend + timestamp + shopId + authUrl + mac + ssid + secretKey);
+                    Wechat_GotoRedirect(appId, extend, timestamp, sign, shopId, authUrl, mac, ssid);
+                }
+            }
+        });
+
+    };
+
+
+    var doDownload = function () {
+
+        var macId = $("#intermac")[0].value;
+        // alert(window.location.href);
+        var str = macId.toUpperCase().trim().replace(/:/g, "").replace(/：/g, "");
+        var temp = /[A-F0-9]{12}/;
+        var len = Math.ceil(str.length / 2);
+        var macId1 = "";
+        if (str.length == 0) {
+            alert('请输入盒子MAC地址后再点击下载');
+            return;
+        }
+        if (str.length == 12 && temp.test(str)) {
+            for (var i = 0; i < len; i++) {
+                if (str.length > 2) {
+                    var strCut = str.substring(0, 2);
+                    macId1 = macId1 + strCut + ":";
+                    str = str.substring(2);
+                } else if (str.length == 2) {
+                    macId1 = macId1 + str;
+                }
+            }
+        } else {
+            alert('MAC错误,请确认后重新输入');
+            return;
+        }
+
+        var key = "1";
+        var key = $('#key').val().trim();
+        if (key == "") {
+            alert('序列码错误,请确认后重新输入');
+            return;
+        }
+        //var mac = macId1.trim();
+        //alert(temp.test(macId1));
+        var mac = macId1.trim();
+        var url = "http://www.city-wifi.com/apce/longlat/download.php";
+        var form = $("<form></form>").attr("action", url).attr("method", "get");
+        form.append($("<input></input>").attr("type", "hidden").attr("name", "mac").attr("value", mac));
+        form.append($("<input></input>").attr("type", "hidden").attr("name", "key").attr("value", key));
+        form.appendTo('body').submit().remove();
+        return;
+
+        var excelurl = "";
+        if (window.location.href == "http://www.city-wifi.com/apce/wx_test/" || window.location.href == "http://www.city-wifi.com/apce/wx_test/index.html") {
+
+            excelurl = "http://www.city-wifi.com/apce/longlat/exportExce.php/?mac=" + mac;
+        } else {
+            excelurl = "http://125.76.226.197/apce/longlat/exportExce.php/?mac=" + mac;
+        }
+        // alert(excelurl);
+        $.ajax({
+            // url: "http://www.city-wifi.com/apce/longlat/exportExce.php/?mac=" + mac,
+            url: excelurl,
+            async: true,
+            success: function (res) {
+                // alert(res);
+                window.location.href = res;
+            }
+        });
+
+        // $.ajax({
+        //     url: "http://125.76.226.197/apce/longlat/exportExce.php/?mac=" + mac,
+        //     async: true,
+        //     success: function (res) {
+        //         window.location.href = res;
+        //     }
+        // });
+        return res;
+    };
+
+    var doBatch = function () {
+        interval = parseInt($("#interval").val()) * 1000;
+        // if (interval < 100 || isNaN(interval)) {
+        //     alert('您设置的发送间隔错误，请设置大于15的数值');
+        //     return;
+        // }
+
+        var proportion = parseInt($("#proportion").val());
+        if (proportion < 15 || proportion > 99) {
+            alert('您设置的发送间隔扰动有误，请填写15-99之间');
+            return;
+        }
+        if (isNaN(proportion))
+            proportion = 0;
+
+        var min_interval = parseInt(interval * (1 - proportion / 100.0));
+        var max_interval = parseInt(interval * (1 + proportion / 100.0));
+
+        $('#detail').val('');
+
+        wxsucc = 0;
+        wxmode = 1;
+        var file = $(":file")[0].files[0];
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var data = e.target.result;
+            var wb = XLSX.read(data, {type: "binary"});
+            var data = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]).slice(0, 100);
+            var idx = 0;
+            var callWx = function (e) {
+                var appId = e['AppId'];
+                var secretKey = e['SecretKey'];
+                var shopId = e['ShopId'];
+                var mac = e['手机MAC'];
+                var ssid = e['WiFi名称'];
+                if (appId.length == 0 || secretKey.length == 0 || shopId.length == 0 || mac.length == 0) {//|| ssid.length == 0) {
+                    return;
+                }
+
+                var v = $('#detail').val();
+                $('#detail').val(v + '推送配对: ' + mac + '\t' + ssid);
+
+                var extend = Math.random() * 100000000000;
+                var timestamp = new Date().getTime();
+                var authUrl = "http://www.qq.com/";
+                var sign = md5(appId + extend + timestamp + shopId + authUrl + mac + ssid + secretKey);
+                Wechat_GotoRedirect(appId, extend, timestamp, sign, shopId, authUrl, mac, ssid);
+                //console.log(appId, secretKey, shopId, mac, ssid);
+            };
+
+
+            var cb = function () {
+
+
+                callWx(data[idx]);
+                idx++;
+
+                $('#progress').progress('increment');
+                $('#progress_percent').html((data.length <= 0 ? 100 : Math.round(idx / data.length * 100)) + "%");
+                $('#wxtotal').html('共发送: ' + idx);
+
+                if (idx == data.length) {
+                    $('#model-ok').removeClass('disabled');
+                    return;
+                }
+
+                var rand = parseInt(Math.random() * (max_interval - min_interval)) + min_interval;
+                if (rand < 1000)
+                    rand = 1000;
+                //setTimeout(cb, interval);
+                setTimeout(cb, rand);
+            };
+
+            $('#progress').progress({total: (data.length <= 0 ? 1 : data.length)});
+
+            $('#model-ok').toggleClass('disabled');
+            $('.ui.modal').modal('setting', 'closable', false).modal('show');
+            if (data.length <= 0) {
+                $('#progress').progress('increment');
+                $('#progress_percent').html((data.length <= 0 ? 100 : Math.round(idx / data.length * 100)) + "%");
+                $('#model-ok').removeClass('disabled');
+            } else {
+                cb();
+            }
+        };
+        reader.readAsBinaryString(file);
+    };
+
+    var batchWrapper = function() {
+        var serial = $("#serial2")[0].value.toLowerCase();
+        var bmac = $("#bmac2")[0].value.toUpperCase().trim().replace(/:/g, "").replace(/：/g, "");
+        if (serial.length == 0 || bmac.length == 0) {//|| ssid.length == 0) {
+            return;
+        }
+
+        $.ajax({
+            url: "./valid.php?mac=" + bmac + "&key=" + serial,
+            async: true,
+            success: function (res) {
+                if (res == "0") {
+                    doBatch();
+                }
+            }
+        });
+    };
+</script>
+</body>
+</html>
